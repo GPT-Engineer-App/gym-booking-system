@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -15,7 +15,19 @@ const Bookings = () => {
   const [bookedSlots, setBookedSlots] = useState([]);
   const [userName, setUserName] = useState("");
 
+  useEffect(() => {
+    const storedUserName = localStorage.getItem("userName");
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
+  }, []);
+
   const bookSlot = (slot) => {
+    if (userName.trim() === "") {
+      alert("Please enter your name before booking.");
+      return;
+    }
+    localStorage.setItem("userName", userName);
     if (userName.trim() === "") {
       alert("Please enter your name before booking.");
       return;
